@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Battle-O-Matic</title>
+    <style>
+        body{
+            background-image:-webkit-linear-gradient(white, blanchedAlmond);
+            background-image:-o-linear-gradient(white, blanchedAlmond);
+            background-image:linear-gradient(white, blanchedAlmond) ;
+          }
+        .head-div, .par-type{
+            text-align:center;
+            margin-bottom: 30px;
+          }
+    </style>
+</head>
+<body>
+    <main role="main" class="container">
+      
+      <div class="row">
+        <div class="head-div col-sm-12">
+          <h1 style="font-size:75px;">Battle-O-Matic</h1>
+          <h5>A Prototype Built by Auden Cote-L'Heureux</h5>
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <h3>Revolutionary War Battle Simulator</h3>
+          <p>
+            The Battle-O-Matic is a neural network based simulator that has been trained on a database of information collected on different factors that might affect the outcome of a battle. Many different specific (but randomly chosen) real life Revolutionary War battles were researched, the resulting data was organized, and is now residing in a Python file ready to be accessed by a hand built neural network algorithm. Every time you input data into the fields below, the network is trained with the previously gathered information using only and all of the factors that you specified - and then your input data is passed through this fully optimized network algorithm to predict which side, the British or the Colonists, won your custom battle.
+          </p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="survey-div col-sm-8">
+          {% block content %}{% endblock %}
+           {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      <hr>
+      
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <h3>Data Analysis and Interpretation</h3>
+          <p>
+            At the moment, the Battle-O-Matic database is very limited. This project was done in a long weekend for a AP US History project, so I was only able to collect detailed information on about 20 battles before I had to start on the algorithm. Because of this and other factors, I had to spend a while going through each of my original data points, which were very diverse and simply information I had seen repeatedly throughout my research of different battles (i.e. the weather on the day of the battle, which colony the battle took place in, etc.) and run each specific type of data against the data collected about the outcome of the battle to determine which data points showed correlation, and which would simply confuse the network's algorithm later on if there was little or strange correlation.
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <div style="display:inline-block;">
+            <figure>
+             <img src="static/Low Correlation.png" width='300px'>
+            <figcaption>Figure 1.1</figcaption>
+           </figure>
+          </div>
+          <div style="display:inline-block;">
+            <figure>
+             <img src="static/High Correlation.png" width='300px'>
+            <figcaption>Figure 1.2</figcaption>
+           </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+          <div class="par-type col-sm-8">
+            <p>
+              An example of an initially collected data type with little to no correlation based on information given by the 20 researched battles was the conditions on the day of the battle, as shown in Figure 1.1 (it is a bar graph because it displays categorical data). The category of the data type (i.e. fog or clear) does not seem to skew the output in any given way, and this is seen as the algorithm's confidence that any side wins is around .5 in each case, with an output closer to 0 indicating a British win, and an output close to one indicating a Colonial win. This implies that this factor's coefficient of correlation is not significant in determining the output of a battle given the training data set of 20 battles, and so it is one of the factors that I dropped in the final prototype version of the Battle-O-Matic. This same process was repeated for the many other variables in my original database, and a final select and most important few were included in my final one.
+            </p>
+            <p>
+              In contrast to Figure 1.1, Figure 1.2 shows high correlation between the independent and dependent variables, being the ratio of British to Colonial troops and the outcome of the battle where a value closer to zero indicates a victory for the British and a value closer to is indicative of a victory for the Colonists respectively. This is illustrated as a clearly logistically shaped function, skewing values on either end of the graph towards an extreme (1 or 0), and having values in the middle, centered around 1.1-1.2 be more ambiguous. This means that this data type is extremely important in determining the outcome of a battle, and therefore should be included and will be weighted more heavily by the neural network than other factors in my final algorithm.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <div style="display:inline-block;">
+            <figure>
+             <img src="static/success.png" width='300px'>
+            <figcaption>Figure 1.3</figcaption>
+           </figure>
+          </div>
+          <div style="display:inline-block;">
+            <figure>
+             <img src="static/triplevariabletry1.png" width='300px'>
+            <figcaption>Figure 1.4</figcaption>
+           </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <p>
+            It can be clearly seen how the lack or correlation between a variable and its output can affect the accuracy of a neural network in its training stages in the contrast between Figure 1.3 and Figure 1.4. Figure 1.3 shows the Mean Squared Error (MSE) in the network algorithm over the number of epochs (training cycles, or basically the time the network has been learning for) when a single, highly correlated variable has been input - the error plummits quickly to practically 0 and stays there. However, in Figure 1.4, which illustrates what occurs when too many variables, some of which completely uncorrelated, are input into the network for training. The network cannot optimize its weights because there isn't a clear optimal goal, and at certain points, such as around 750 epochs, the error actually starts to trend back upwards. This is most likely due to overfitting - when the network's parameters are only optimized to a certain input and output group. This probably arises in our case among seemingly uncorrelated variables because my database is simply too small, and with a variety of data in each data type, coincidental correlation can occur when there is one data type that is just more common than the others and simply took over. This occured in the case of the British general parameter - nearly half the battles I chose had Howe as a general, while the other half was random. This variable did show promise, as Howe was determined by me to be a much more successful general than any other just by looking at the database, so I solved this problem by making it binary - the British general is either William Howe, or it isn't - and now that variable shows high correlation.
+          </p>
+      </div>
+    </div>
+
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="par-type col-sm-8">
+          <p>
+            It is not only fascinating but also vitally important to look at why certain variables might be more important than others and how each factor acts to increase or decrease the odds of each side winning a battle through a primarily historical lens instead of a statistical one. It is crucial to note the implications that arise from simply comparing two data types or changing only a single data type with all others held constant. Because of this, as you use my simulator and input different values for a different number of variables or type of variable each time, which I encourage you to do, I ask you to think about what would really be going on were your simulation to be a real battle. For example, when looking at Figure 1.2, one might notice that the center of the imaginary logistic trendline is actually around 1.2, and since this is a ratio, that means that my algorithm is implying that the number of Colonial soldiers should be weighted more heavily than that of British soldiers. In human terms, that means that less Colonial soldiers are needed to fight an army of British soldiers than British soldiers if they were fighting an army of the same size of Colonial soldiers, because Colonial soldiers seem to have more value. To explain sometimes unexpected implications such as these (there are more, and you can find them quickly just by playing around with the simulator - oh, what power!) I looked at first hand accounts of Revolutionary War battles, and found passages such as the one below, which agree with the fact that a small amount of Colonial soldiers can do a lot of damage - hidden in the woods. 
+          </p>
+
+           <p>
+            <i> 
+              "In the meantime, a party of our men (150) took the back way through the Great Fields into the east quarter and had placed themselves to advantage, lying in ambush behind walls, fences and buildings, ready to fire upon the enemy on their retreat... As soon as the British had gained the main road, and passed a small bridge near that corner, they faced about suddenly, and fired a volley of musketry upon us. They overshot; and no one, to my knowledge, was injured by the fire. The fire was immediately returned by the Americans, and two British soldiers fell dead, at a little distance from each other, in the road, near the brook."
+
+                        -Reverend Mr. Emerson
+            </i>
+          </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="par-type col-sm-8">
+        <h3 style="margin-bottom: 20px;">The Algorithm</h3>
+        <figure>
+          <img src="static/network.jpg" width='300px'>
+          <figcaption>Figure 2.1</figcaption>
+        </figure>
+        <p>
+          A neural network is a multi-layered pattern-recognition algorithm, a very simple model of which is diagrammed above in Figure 2.1. The input layer represents the data that was inputted into the network, with the whole layer representing all of the data from a battle and each node representing the numerical value of a specific data type. Each input is then passed to each node in the first hidden layer, which gives each node a weight (represented by the arrows), adds a bias for that node, passes that whole equation through a non-linear activation function (my custom built neural network uses the sigmoid activation function), and outputss and probability that represents how important that node is to the system. All of this is then passed to the next hidden layer (both of my hidden layers have eight nodes each), and then to the output layer, which in my case is only one node. The output node has the same function as each hidden node, but its output represents, in my case, a value on the spectrum of Colonial to British victory, mapped from 1 to 0, repectively. Each training battle data set is also passed in with what the expected outcome of the battle is, and from that and the experimental output of the feed forward stage an error is produced. The mean of all the errors squared, or the MSE, is what is represented in Figure 1.3 and Figure 1.4. From this error, the amount that each weight, still represented by each arrow in Figure 2.1, contributes to that error is calculated using partial derivatives and the chain rule. This value, the slope of the error function with respect to each weight at the current value at that weight, is called the gradient, and negating the gradient and combining it with a couple of other factors (i.e. the learning rate, for which I used .1) gives how much each weight should be changed by in order to optimize, or minimize, the error of our network. The training process I used is known as mini-batch (the gradients are averaged in batches, and then the weight values are tweaked, as opposed to a stochastic method, where the weights are tweaked after each pass through the network) gradient descent, and after the data set has been run through enough times, the error, or loss, should have reahed its minimum, and the network should have picked up on any patterns present in the data set. It is these weight and bias values that are applied to the values inputted to the simulation so that they can be compared against the pattern by being run through the neural network forward using the optimized weight and bias values, and the most accurate possible prediction of the outcome of that battle can be made.
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="par-type col-sm-8">
+        <h3>The Raw Data</h3>
+        <figure>
+          <img src="static/rawdata.png" width='100%'>
+          <figcaption>Figure 3.1</figcaption>
+        </figure>
+
+        <p>
+           Figure 3.1 shows the actual raw data that I collected while searching the web for information about random revolutionary war battles and searching for trends among them. You can see that a few variables are present in Figure 3.1 that are not present in Figure 3.2, and these are the variables that I deemed uncorrelated and problematic to my network, as explained in Data Analysis and Interpretation. The reason that these original data points were chosen was simply that these were the data types I saw most frequently portrayed in descriptions of the battles, so I figured that they had the greatest chance of being relevant to the outcome of said battles. The second table in Figure 3.1 shows the qualitative data represented numerically, as can be understood by my Python functions that translate data to be understandable by my neural network.
+        </p>
+
+        <figure>
+          <img src="static/simplified.png" width='100%'>
+          <figcaption>Figure 3.2</figcaption>
+        </figure>
+
+        <p>
+          Figure 3.2 shows both the qualitative and numerical versions of my simplified data set, using only the highly correlated variables meticulously chosen from the data in Figure 3.1 after running each variable through the algorithm and analyzing the results over time. You can see that the numerical values are either numbers that make sense to weight (as in quantitative data as opposed to categorical), such as the troop ratio, or binary problems, such as which side was on the offensive. In the future, if more data points were to be collected, more variables could likely be added to the simulation as there would be more room for correlation among, for instance, categorical data.
+        </p>
+
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="par-type col-sm-8">
+        <h3>The Code</h3>
+        <p>
+          Every one of the thirteen hundred or so lines of code that went into this project were written personally by me, down to the matrix math library that allows the neural network to function. If you are interested in seeing this code or running/adding to it yourself, it can be found at my <a href="https://github.com/AudenCote/Battle-O-Matic/" target="blank">GitHub repository</a>. The code is mostly Python, however in order for my Python code to interact with you, the user, via my HTML and CSS based web page that you are seeing, I had to use the Flask web app module (which I learned in a day specially for this project). In order to make this project live on the World Wide Web, I used Python Anywhere, which is a great and very easy to use platform that makes working with Python code and Flask on the web simple, and I encourage you to check it out if you are running a project like this one yourself.
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="par-type col-sm-8">
+        <h3>Citations</h3>
+        <p>
+          "Pension Narratives of Revolutionary War Veterans." <i>America in Class</i>, http://americainclass.org/sources/makingrevolution/war/text6/pensionnarratives.pdf
+        </p>
+        <p>
+          "Voices of Lexington and Concord." <i>AMERICAN HERITAGE</i>, 1 Sept 2019, https://www.americanheritage.com/voices-lexington-and-concord
+        </p>
+        <p>
+          "Great Britain vs the 13 Colonies 1775-1783." <i>American Revolutionary War</i>, 12 Feb 2019, https://revolutionarywar.us/
+        </p>
+        <p>
+          "Washington's Revolutionary War Battles." <i>George Washington's Mount Vernon</i>, Mount Vernon Ladie's Association, 2019, https://www.mountvernon.org/george-washington/the-revolutionary-war/washingtons-revolutionary-war-battles/
+        </p>
+        <p> 
+          Assorted Battles and Documents. <i>The American Revolution - (Battles)</i>, http://theamericanrevolution.org/battles.aspx
+        </p>
+      </div>
+    </div>
+
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
